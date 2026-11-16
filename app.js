@@ -413,13 +413,17 @@
       $(id).addEventListener("input", function (e) { state.answers[i] = e.target.value; save(); });
     });
     $("downloadBtn").addEventListener("click", download);
-    $("restartBtn").addEventListener("click", function () {
-      if (!window.confirm("Clear your choices and answers and start over?")) return;
+    function resetAll() {
+      if (!window.confirm("Clear your group name, choices and answers and go back to the start?")) return;
       state = { step: 0, group: "", picked: [], weights: {}, scale: "rank", share: 20, answers: ["", "", ""], weightsTouched: false };
+      try { localStorage.removeItem(STORE); } catch (e) { /* storage unavailable */ }
+      sortKey = "rank"; sortDir = 1;
       $("groupName").value = "";
       ["q1", "q2", "q3"].forEach(function (id) { $(id).value = ""; });
       show(0);
-    });
+    }
+    $("restartBtn").addEventListener("click", resetAll);
+    $("resetBtn").addEventListener("click", resetAll);
     $("backBtn").addEventListener("click", function () { if (state.step > 0) show(state.step - 1); });
     $("nextBtn").addEventListener("click", function () { if (!stepProblem(state.step) && state.step < STEP_NAMES.length - 1) show(state.step + 1); });
     show(Math.min(state.step || 0, STEP_NAMES.length - 1));

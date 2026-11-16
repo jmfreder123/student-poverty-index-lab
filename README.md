@@ -15,6 +15,8 @@ Send students the GitHub Pages link for this repository. Each group works throug
 5. **Compare.** See the group's top ten next to the income-only top ten, which districts their index added or dropped, and which high-need districts have small samples.
 6. **Reflect.** Answer three questions and download a text summary to share in the debrief.
 
+"Reset everything," at the top right of every step, clears the group name, choices and answers and returns to the start. Use it between class sections on a shared laptop.
+
 The income-only ranking uses the share of children ages 6 to 17 in families below 185 percent of the poverty line, the FRPL reduced-price line. The census table has no band at 130 percent, so the free-meal line cannot be rebuilt exactly.
 
 ## Data
