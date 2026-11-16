@@ -365,7 +365,7 @@
   function summaryText() {
     var R = results();
     var lines = [];
-    lines.push("Student poverty index activity");
+    lines.push("Student Poverty Index Lab");
     lines.push("Group: " + (state.group || "(no name)"));
     lines.push("");
     lines.push(recapText());
@@ -391,7 +391,7 @@
     var a = document.createElement("a");
     var name = (state.group || "group").replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "") || "group";
     a.href = URL.createObjectURL(blob);
-    a.download = "poverty-index-" + name + ".txt";
+    a.download = "poverty-index-lab-" + name + ".txt";
     document.body.appendChild(a);
     a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);

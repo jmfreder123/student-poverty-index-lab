@@ -1,4 +1,4 @@
-# Build a Student Poverty Index
+# Student Poverty Index Lab
 
 A classroom activity that walks small groups through building a multidimensional index of student need for Arizona's 97 unified school districts, then comparing it with an income-only ranking based on the free and reduced-price lunch (FRPL) income line.
 
