@@ -33,6 +33,7 @@
     <label class="field">Group name
       <input id="groupName" type="text" maxlength="60" placeholder="For example, Group 3">
     </label>
+    <p class="muted">Some districts are tagged <span class="tag">small</span>. They have fewer than 500 school-age children, so their census estimates are much less precise. You will see this again when you compare results.</p>
     <p class="muted">About 20 minutes. Nothing you enter leaves this browser.</p>
   </section>
 
@@ -108,7 +109,9 @@
         <ul class="plain" id="droppedList"></ul>
       </div>
     </div>
-    <p class="muted"><span class="tag">small</span> marks districts with fewer than 500 school-age children. Their estimates have large margins of error.</p>
+    <div class="callout" id="smallNote">
+      <p><strong>What <span class="tag">small</span> means.</strong> The district has fewer than 500 children ages 6 to 17. The census figures come from a sample survey, so estimates for small districts can be far off. For child poverty, the typical margin of error is about 19 percentage points in these 15 districts and about 7 points in the other 82. Bowie, with 58 children, shows 41.2 percent of children below poverty, plus or minus 24.0 points. The 500 cutoff is a choice made for this activity, not a Census Bureau rule.</p>
+    </div>
     <details>
       <summary>All 97 districts</summary>
       <div class="tablewrap"><table id="fullTable"></table></div>

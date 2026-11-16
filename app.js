@@ -268,7 +268,7 @@
   function nameWithTag(r) {
     var frag = document.createDocumentFragment();
     frag.appendChild(document.createTextNode(r.name));
-    if (r.small) frag.appendChild(el("span", { class: "tag" }, "small"));
+    if (r.small) frag.appendChild(el("span", { class: "tag", title: "Fewer than 500 children ages 6 to 17. Large margin of error." }, "small"));
     return frag;
   }
   function recapText() {
