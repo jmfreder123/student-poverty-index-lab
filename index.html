@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build a Student Poverty Index</title>
+<meta name="description" content="A classroom activity: build a multidimensional index of student need for Arizona unified school districts from American Community Survey data, and compare it with an FRPL-style income line.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Classroom activity</p>
+    <h1>Build a student poverty index</h1>
+    <p class="sub">Arizona unified school districts · American Community Survey 2020–2024</p>
+  </div>
+</header>
+
+<nav class="steps wrap" aria-label="Activity steps">
+  <ol id="stepper"></ol>
+</nav>
+
+<main class="wrap" id="main">
+
+  <!-- Step 0 -->
+  <section class="panel" data-step="0">
+    <h2>The task</h2>
+    <p>Your group is advising the state on which Arizona school districts have the most student need. Most states measure student poverty with free and reduced-price lunch (FRPL), which counts children whose family income is under a cutoff tied to the federal poverty line.</p>
+    <p>You will start from that income line and decide whether, and how, to measure need more broadly. You will make four decisions, then compare your ranking with the income-only ranking.</p>
+    <div class="callout">
+      <p><strong>The income-only ranking</strong> uses the share of children ages 6 to 17 in families below 185 percent of the poverty line, the FRPL reduced-price line.</p>
+    </div>
+    <label class="field">Group name
+      <input id="groupName" type="text" maxlength="60" placeholder="For example, Group 3">
+    </label>
+    <p class="muted">About 20 minutes. Nothing you enter leaves this browser.</p>
+  </section>
+
+  <!-- Step 1 -->
+  <section class="panel" data-step="1" hidden>
+    <h2>Step 1. Choose your indicators</h2>
+    <p>Pick four to six. Each one is a percent, and higher always means more need. What counts as student need for your group?</p>
+    <p class="count" id="pickCount" aria-live="polite"></p>
+    <div class="cards" id="indicatorCards"></div>
+    <div class="warn" id="corrWarn" aria-live="polite"></div>
+  </section>
+
+  <!-- Step 2 -->
+  <section class="panel" data-step="2" hidden>
+    <h2>Step 2. Set your weights</h2>
+    <p>Split 100 points among your indicators. A bigger weight means that indicator matters more in your index.</p>
+    <div class="weights" id="weights"></div>
+    <div class="row between">
+      <button type="button" class="ghost" id="evenBtn">Split evenly</button>
+      <p class="total" id="weightTotal" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- Step 3 -->
+  <section class="panel" data-step="3" hidden>
+    <h2>Step 3. Choose a scaling method</h2>
+    <p>Your indicators are on different scales. Plumbing runs from 0 to 25 percent while rent burden runs from 0 to 71 percent. Scaling puts them on a common footing before they are added up.</p>
+    <fieldset class="choices" id="scaleChoices">
+      <legend class="sr">Scaling method</legend>
+      <label class="choice"><input type="radio" name="scale" value="rank" checked>
+        <span><strong>Ranks.</strong> Each district gets its percentile rank on the indicator, from 0 to 100. Only order matters, so an extreme district counts no more than the next one down.</span></label>
+      <label class="choice"><input type="radio" name="scale" value="minmax">
+        <span><strong>0 to 100.</strong> The lowest district is 0 and the highest is 100, with the rest in proportion. One extreme district squeezes everyone else together.</span></label>
+      <label class="choice"><input type="radio" name="scale" value="z">
+        <span><strong>z-scores.</strong> Distance from the state average in standard deviations. Extreme districts pull hardest.</span></label>
+    </fieldset>
+    <div class="example" id="scaleExample"></div>
+  </section>
+
+  <!-- Step 4 -->
+  <section class="panel" data-step="4" hidden>
+    <h2>Step 4. Draw your line</h2>
+    <p>What share of districts should count as high need? The same share applies to your index and to the income-only ranking, so the two lists are the same length.</p>
+    <label class="field slider">Share of districts counted as high need: <strong id="shareOut"></strong>
+      <input id="share" type="range" min="5" max="50" step="5" value="20">
+    </label>
+    <p class="muted" id="shareCount"></p>
+  </section>
+
+  <!-- Step 5 -->
+  <section class="panel" data-step="5" hidden>
+    <h2>Step 5. Compare</h2>
+    <p id="recap" class="muted"></p>
+    <div class="stats" id="stats"></div>
+    <div class="two">
+      <div>
+        <h3>Your top ten</h3>
+        <ol class="toplist" id="topYours"></ol>
+      </div>
+      <div>
+        <h3>Income-only top ten</h3>
+        <ol class="toplist" id="topIncome"></ol>
+      </div>
+    </div>
+    <p class="muted">Names in bold are not in the other top ten.</p>
+    <div class="two">
+      <div>
+        <h3>Added by your index</h3>
+        <ul class="plain" id="addedList"></ul>
+      </div>
+      <div>
+        <h3>Dropped by your index</h3>
+        <ul class="plain" id="droppedList"></ul>
+      </div>
+    </div>
+    <p class="muted"><span class="tag">small</span> marks districts with fewer than 500 school-age children. Their estimates have large margins of error.</p>
+    <details>
+      <summary>All 97 districts</summary>
+      <div class="tablewrap"><table id="fullTable"></table></div>
+    </details>
+  </section>
+
+  <!-- Step 6 -->
+  <section class="panel" data-step="6" hidden>
+    <h2>Step 6. Reflect</h2>
+    <label class="field">1. Which indicators did you choose, and why?
+      <textarea id="q1" rows="3"></textarea></label>
+    <label class="field">2. Which districts entered your high-need group that income alone missed? What do they have in common?
+      <textarea id="q2" rows="3"></textarea></label>
+    <label class="field">3. Which one decision changed your ranking the most?
+      <textarea id="q3" rows="3"></textarea></label>
+    <div class="row">
+      <button type="button" id="downloadBtn">Download your group’s summary</button>
+      <button type="button" class="ghost" id="restartBtn">Start over</button>
+    </div>
+  </section>
+
+  <div class="nav row between">
+    <button type="button" class="ghost" id="backBtn">Back</button>
+    <p class="hint" id="navHint" aria-live="polite"></p>
+    <button type="button" id="nextBtn">Next</button>
+  </div>
+</main>
+
+<footer class="wrap foot">
+  <p>Data: U.S. Census Bureau, American Community Survey 2020–2024 5-year estimates, tables DP02, DP03, DP04 and B17024, for all 97 Arizona unified school districts. Cleaned for classroom practice. Estimates describe everyone living in each district, not enrolled students.</p>
+  <p>Built by John M. Fredericks, Arizona State University.</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
